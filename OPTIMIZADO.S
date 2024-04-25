@@ -1,5 +1,5 @@
 .data
-valor_inicial: .word 99
+valor_inicial: .word 97
 secuencia: .space 120*4
 secuencia_tamanho: .word 0
 secuencia_maximo: .word 0
@@ -7,20 +7,19 @@ secuencia_valor_medio: .float 0.0
 lista: .space 9*4
 lista_valor_medio: .float 0.0
 inv_nine: .float 0.1111111    
+uno: .float 1
 
 .text
 .global main
 
 main:
-    lw r2, valor_inicial       ; Carga el valor inicial en el registro r2
+    lw r4, valor_inicial       ; Carga el valor inicial directamente en el registro r4
     addi r8, r0, 4             ; Incrementa la dirección de memoria para el siguiente término
-    add r4, r0, r2             ; A[n] inicializado con el valor inicial
-    sw secuencia, r2           ; Almacena el valor inicial en la secuencia
-    add r10, r0, r2            ; Inicializa el valor máximo con el valor inicial
-    add r11, r0, r2            ; Inicializa el acumulador para el valor medio con el valor inicial
+    sw secuencia, r4           ; Almacena el valor inicial en la secuencia usando r4
+    add r11, r0, r4            ; Inicializa el acumulador para el valor medio con el valor inicial en r4
 
 loop:
-andi r7, r4, 1             ; Verifica si A[n] es impar
+    andi r7, r4, 1             ; Verifica si A[n] es impar
     slli r5, r4, 1             ; Multiplica por 2 (equivale a desplazar un bit a la izquierda)
     bnez r7, odd               ; Si es impar, salta a la etiqueta 'odd'
     
@@ -122,10 +121,8 @@ calculate_average:
     sw secuencia_tamanho, r9
 
     movi2fp f4, r10
-    movi2fp f2, r2
     cvti2f f4, f4
-
-    
+    lf f2, secuencia  
     cvti2f f2, f2
 
 
@@ -318,8 +315,8 @@ calculate_average2:
     sw secuencia_tamanho, r9
 
     movi2fp f4, r10
-    movi2fp f2, r2
-    cvti2f f4, f4    
+    cvti2f f4, f4 
+    lf f2, secuencia
     cvti2f f2, f2
 
 
@@ -506,8 +503,8 @@ calculate_average3:
     sw secuencia_tamanho, r9
 
     movi2fp f4, r10
-    movi2fp f2, r2
-    cvti2f f4, f4    
+    cvti2f f4, f4  
+    lf f2, secuencia  
     cvti2f f2, f2
 
 
