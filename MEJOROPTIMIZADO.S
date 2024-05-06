@@ -1,5 +1,5 @@
 .data
-valor_inicial: .word 97
+valor_inicial: .word 99
 secuencia: .space 120*4
 secuencia_tamanho: .word 0
 secuencia_maximo: .word 0
@@ -29,10 +29,10 @@ loop:
     
     ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_averageInicio              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
 
     ; Segunda iteración
     
@@ -42,11 +42,10 @@ loop:
     
     ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_averageInicio              ; Si A[n] es 1, va a calculate_average
-
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     ; Tercera iteración
 
     andi r7, r4, 1             ; Verifica si A[n] es impar
@@ -55,11 +54,10 @@ loop:
     
     ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_averageInicio              ; Si A[n] es 1, va a calculate_average
-
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     ; Cuarta iteración
 
     andi r7, r4, 1             ; Verifica si A[n] es impar
@@ -68,11 +66,10 @@ loop:
     
     ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_averageInicio              ; Si A[n] es 1, va a calculate_average
-
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     ; Quinta iteración
 
     andi r7, r4, 1             ; Verifica si A[n] es impar
@@ -81,22 +78,21 @@ loop:
     
     ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_averageInicio              ; Si A[n] es 1, va a calculate_average
-
-    ; Sexta iteración
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     andi r7, r4, 1             ; Verifica si A[n] es impar
     addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
     bnez r7, oddMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_averageInicio              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia    
+    j continue_loop            ; Continúa con la siguiente iteración
     
 
 calculate_average:
@@ -119,7 +115,7 @@ calculate_average:
     ; Tenemos en f1 la suma de los valores de la secuencia, en f2 el valor inicial vIni, en f3 el tamaño de la secuencia vT y en f4 el valor máximo vMax
     ; Dividir el acumulador por el tamaño para obtener el promedio vMed
     divf f1, f1, f3 ; f1 = vMed
-    ; Calculamos /vIni * vMax * vT y lo almacenamos en f12 
+    ; Calculamos 1/vIni * vMax * vT y lo almacenamos en f12 
     multf f12, f8, f3
     lf f2 , secuencia+4
     ; Almacenar el tamaño de la secuencia en memoria
@@ -134,8 +130,6 @@ calculate_average:
     addf f20, f5, f12
     sf lista, f5
     sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
-    
-    
 
     ; Convertir valores enteros a punto flotante para las operaciones
     divf f14, f3, f4    ; vT/vMax
@@ -244,7 +238,6 @@ loop2:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -257,7 +250,6 @@ loop2:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -270,7 +262,6 @@ loop2:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -289,6 +280,7 @@ loop2:
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    j continue_loop            ; Continúa con la siguiente iteración
 
 
 update_max:
@@ -333,7 +325,6 @@ loop3:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -347,7 +338,6 @@ loop3:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -372,25 +362,26 @@ loop3:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4           ; Almacena A[n] en la secuencia
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
 
     beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
-
-    ; Octava iteración
+    sw secuencia(r2), r4
+    ; Octava iteración          ; Almacena A[n] en la secuencia
      andi r7, r4, 1             ; Verifica si A[n] es impar
     addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
-    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    
 
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    j continue_loop            ; Continúa con la siguiente iteración
 
 oddInicio:
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
@@ -404,7 +395,7 @@ oddInicio:
 
 loopInicio:
         
-        ; Caso par (en línea)
+    ; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
     sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
@@ -442,7 +433,6 @@ loopInicio:
     bnez r7, oddMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -456,7 +446,6 @@ loopInicio:
     bnez r7, oddMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -469,7 +458,6 @@ loopInicio:
     bnez r7, oddMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -482,7 +470,6 @@ loopInicio:
     bnez r7, oddMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -495,12 +482,12 @@ loopInicio:
     bnez r7, oddMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
     sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    j continue_loop            ; Continúa con la siguiente iteración
 
 calculate_averageUno:
     ;Almacenamos el valor inicial en el registro r10
@@ -597,7 +584,8 @@ calculate_averageInicio:
     cvti2f f3, f3
     ; Calculamos la suma de los valores de la secuencia y la almacenamos en f1 para calcular el promedio
     movi2fp f1, r11
-    cvti2f f1, f1    
+    cvti2f f1, f1
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
     
     
     ; Tenemos en f1 la suma de los valores de la secuencia, en f2 el valor inicial vIni, en f3 el tamaño de la secuencia vT y en f4 el valor máximo vMax
@@ -617,7 +605,7 @@ calculate_averageInicio:
     multf f6, f4, f3   ; vMax * vT
     addf f20, f5, f12
     sf lista, f5    
-    
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
 
     ; Convertir valores enteros a punto flotante para las operaciones
     divf f14, f3, f4    ; vT/vMax
@@ -710,7 +698,6 @@ loopMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -724,7 +711,6 @@ loopMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -737,7 +723,6 @@ loopMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -750,7 +735,6 @@ loopMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -769,6 +753,7 @@ loopMax:
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    j continue_loop             ; Continúa con la siguiente iteración
 
 oddNoMax:
     ; Caso impar
@@ -818,7 +803,6 @@ loopNoMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -832,7 +816,6 @@ loopNoMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -845,7 +828,6 @@ loopNoMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -858,7 +840,6 @@ loopNoMax:
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
     ; Caso par (en línea)
-; Caso par (en línea)
     srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
@@ -866,7 +847,114 @@ loopNoMax:
     sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
 
     ; Octava iteración
-     andi r7, r4, 1             ; Verifica si A[n] es impar
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+    
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    
+    
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    j continue_loop             ; Continúa con la siguiente iteración
+
+continue_loop:
+        
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+    
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+
+    ; Segunda iteración
+    
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+    
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+
+    ; Tercera iteración
+
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+
+    ; Cuarta iteración
+
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+    
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+
+    ; Quinta iteración
+
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+    
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+
+    ; Sexta iteración
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+    
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+
+    ; Séptima iteración
+    andi r7, r4, 1             ; Verifica si A[n] es impar
+    addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
+    bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
+    
+    ; Caso par (en línea)
+    srli r4, r4, 1             ; Calcula A[n] / 2 para el caso par y almacena en r4
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
+    beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+
+    ; Octava iteración
+    andi r7, r4, 1             ; Verifica si A[n] es impar
     addi r2, r2, 4             ; Incrementa la dirección de memoria para el siguiente término
     bnez r7, oddNoMax               ; Si es impar, salta a la etiqueta 'odd'
     
@@ -877,3 +965,5 @@ loopNoMax:
     subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
     add r11, r11, r4           ; Suma A[n] al acumulador para el valor medio
     beqz r6, calculate_average              ; Si A[n] es 1, va a calculate_average
+    sw secuencia(r2), r4       ; Almacena A[n] en la secuencia
+    j continue_loop             ; Continúa con la siguiente iteración

@@ -64,7 +64,7 @@ calculate_average:
     lw r2, valor_inicial
     lw r3, secuencia_tamanho
     lw r4, secuencia_maximo
-    lf f0, secuencia_valor_medio
+    lf f1, secuencia_valor_medio
 
     ; Convertir valores enteros a punto flotante para las operaciones
     movi2fp f2, r2
@@ -84,7 +84,7 @@ calculate_average:
     sf lista+4, f6
 
     ; vMed * vT
-    multf f7, f0, f3
+    multf f7, f1, f3
     sf lista+8, f7
 
     ; (vIni/vMax) * vT
@@ -93,7 +93,7 @@ calculate_average:
     sf lista+12, f8
 
     ; (vIni/vMed) * vT
-    divf f9, f2, f0
+    divf f9, f2, f1
     multf f9, f9, f3
     sf lista+16, f9
 
@@ -103,17 +103,17 @@ calculate_average:
     sf lista+20, f10
 
     ; (vMax/vMed) * vT
-    divf f11, f4, f0
+    divf f11, f4, f1
     multf f11, f11, f3
     sf lista+24, f11
 
     ; (vMed/vIni) * vT
-    divf f12, f0, f2
+    divf f12, f1, f2
     multf f12, f12, f3
     sf lista+28, f12
 
     ; (vMed/vMax) * vT
-    divf f13, f0, f4
+    divf f13, f1, f4
     multf f13, f13, f3
     sf lista+32, f13
 
