@@ -1,11 +1,11 @@
 .data
-valor_inicial: .word 97
+valor_inicial: .word 66
 secuencia: .space 120*4
 secuencia_tamanho: .word 0
 secuencia_maximo: .word 0
-secuencia_valor_medio: .float 0.0
+secuencia_valor_medio: .float 0
 lista: .space 9*4
-lista_valor_medio: .float 0.0
+lista_valor_medio: .float 0
 
 .text
 .global main
@@ -17,10 +17,15 @@ main:
     addi r5, r0, 3             ; Constante para multiplicar por 3
     addi r8, r0, secuencia     ; Carga la dirección de secuencia en r8
     sw 0(r8), r2               ; Almacena el valor inicial en la secuencia
-    addi r9, r0, 0             ; Inicializa el contador de tamaño de secuencia en 0
+    addi r9, r0, 1             ; Inicializa el contador de tamaño de secuencia en 0
     addi r8, r8, 4             ; Incrementa la dirección de memoria para el siguiente término
     add r10, r0, r2            ; Inicializa el valor máximo con el valor inicial
     add r11, r0, r2            ; Inicializa el acumulador para el valor medio con el valor inicial
+
+comprobarUno:
+    subi r6, r4, 1             ; Resta 1 de A[n] y almacena el resultado en r6
+    beqz r6, calculate_average ; Si A[n] es 1, salta a calcular el promedio
+    subi r9, r9, 1             ; Si A[n] no es 1, decrementa el contador de tamaño de secuencia
 
 loop:
     andi r7, r3, 1             ; Verifica si A[n-1] es impar
@@ -126,13 +131,13 @@ calculate_average:
     addf f14, f14, f11
     addf f14, f14, f12
     addf f14, f14, f13
-    ; Almacena el valor 9 en un registro R 
+    ; Almacena el valor 9 en el registro r9
     addi r9, r0, 9
-    ; Pasa el valor 9 a un registro FP
+    ; Transforma el valor 9 a punto flotante
     movi2fp f15, r9
     cvti2f f15, f15
 
-    divf f14, f14, f15          ; Divide la suma total por el tamaño de la secuencia
+    divf f14, f14, f15          ; Divide la suma de los elementos de la lista entre 9
     sf lista_valor_medio, f14   ; Almacena el valor medio en lista_valor_medio
 
     trap 0                      ; Termina la ejecución del programa
