@@ -22,7 +22,7 @@ This project uses a simulated DLX CPU with the following hardware specifications
 - **Instructions**: All instructions are 32-bit and must be aligned in memory.
 - **Special Registers**: A few special registers can be transferred to/from the GPRs.
 
-Additional configuration details are provided in the image **ConsumoCiclos**.
+![PIPELINE](https://github.com/user-attachments/assets/c2ee5f4b-f3cf-40e8-9f6f-34b5f37242cb)
 
 ## Program Details
 
